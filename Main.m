@@ -82,10 +82,13 @@ D = zeros(12,4);
 quad_model = ss(A, B, C, D);
 
 % I/O names
-quad_model.OutputName = {'x','y','z','x_dot','y_dot','z_dot',...
-    'phi','theta','psi','phi_dot','theta_dot','psi_dot'};
+quad_model.OutputName = {'x','y','z','u','v','w',...
+    'phi','theta','psi','p','q','r'};
 
 quad_model.InputName = {'T','t_phi','t_theta','t_psi'};
+
+quad_model.StateName = {'x','y','z','u','v','w',...
+    'phi','theta','psi','p','q','r'};
 
 % number of states & inputs
 Nx = size(A,1); 
@@ -97,7 +100,7 @@ mpcobj = mpc(quad_model, dt, Np, Nc);
 mpcobj.Model.Nominal.X = [zeros(1,12)];
 % Controller Weights
 mpcobj.Weights = struct('MV',[1 1 1 1],...
-    'MVRate',[0.5 1 1 1],'OV',[1.2 1.2 0.5 0.8 0.8 zeros(1,3) 1 zeros(1,3)]);
+    'MVRate',[1 1 1 1],'OV',[1 1 1 1 1 zeros(1,3) 1 zeros(1,3)]);
 
 
 % UAV states used in simulation 
@@ -114,7 +117,7 @@ G = [0;height];
 E = zeros(4);
 
 % Set hard constraints 
-V=[0;0;0;0];
+V=[0;0.4];
 
 % Apply constraints 
 setconstraint(mpcobj,E,F,G,V)
