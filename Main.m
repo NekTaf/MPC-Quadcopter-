@@ -24,7 +24,7 @@ height = 5;             % Height (m)
 dt = 0.1;               % sample time (sec)
 Np = 40;                % prediction horizon
 Nc = 10;                % control horizon
-T_sim = 300;             % Total simulation time (sec)
+T_sim = 80;             % Total simulation time (sec)
 
 % Simulation time
 t = 0:dt:T_sim;
@@ -61,18 +61,7 @@ B = [0, 0, 0, 0;
     0, 0, 0, 1/Izz];
 
 % Output Matrix 
-C=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+C=eye(12);
 
     
 % Feed-forward Matrix 
@@ -116,7 +105,7 @@ G = [0;height];
 % MV constraint constant
 E = zeros(4);
 
-% Set hard constraints 
+% Set constraints 
 V=[0;0.4];
 
 % Apply constraints 
@@ -211,6 +200,7 @@ plot(t, d_centre)
 % Add labels and title
 xlabel('Time (sec)')
 ylabel('distance (m)')
+ylim([0 max(d_centre)*1.1])
 title('Distance form origin')
 grid on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
